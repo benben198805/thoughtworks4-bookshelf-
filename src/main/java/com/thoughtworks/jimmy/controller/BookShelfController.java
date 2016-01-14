@@ -3,9 +3,15 @@ package com.thoughtworks.jimmy.controller;
 import com.thoughtworks.jimmy.model.Book;
 import com.thoughtworks.jimmy.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -80,5 +86,19 @@ public class BookShelfController{
         bookService.delete(isbn);
 
         return "redirect:/";
+    }
+
+
+    @RequestMapping(value = "book/page/{pageIndex}/{pageSize}", method = RequestMethod.GET)
+    public ModelAndView findBookByPage(@PathVariable String pageIndex,@PathVariable String pageSize) {
+        Pageable pageable=new PageRequest(Integer.parseInt(pageIndex),Integer.parseInt(pageSize));
+        Page<Book> books=bookService.findBookByPage(pageable);
+        int[] pages={books.getNumber(),books.getTotalPages()};
+
+        ModelMap model = new ModelMap();
+        model.put("books", books);
+        model.put("pages", pages);
+
+        return new ModelAndView("bookPage", model);
     }
 }

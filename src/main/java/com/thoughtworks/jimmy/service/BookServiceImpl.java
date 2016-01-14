@@ -4,6 +4,8 @@ import com.thoughtworks.jimmy.model.Book;
 import com.thoughtworks.jimmy.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 @Service
@@ -48,5 +50,11 @@ public class BookServiceImpl implements BookService {
     @Override
     public List<Book> getBookByTitle(String title) {
         return bookRepository.findByTitle(title);
+    }
+
+    @Override
+    public Page<Book> findBookByPage(Pageable pageable) {
+        Page<Book> pages=bookRepository.findAll(pageable);
+        return pages;
     }
 }

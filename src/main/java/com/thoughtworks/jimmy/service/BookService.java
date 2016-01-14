@@ -1,6 +1,8 @@
 package com.thoughtworks.jimmy.service;
 
 import com.thoughtworks.jimmy.model.Book;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -18,4 +20,5 @@ public interface BookService {
 
     List<Book> search(String searchStr);
     List<Book> getBookByTitle(String title);
+    Page<Book> findBookByPage(Pageable pageable);
 }
