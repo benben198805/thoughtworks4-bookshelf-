@@ -16,6 +16,7 @@
                 <th>Price</th>
                 <th>View</th>
                 <th>Edit</th>
+                <th>Delete</th>
             </tr>
             <tr th:each="book : ${books}">
                 <td th:text="${book.isbn}"><a href="/book/${book.isbn}">Id</a></td>
@@ -24,6 +25,7 @@
                 <td th:text="${book.price}">price</td>
                 <td><a th:href="${ '/book/' + book.isbn}">View</a></td>
                 <td><a th:href="${'/book/edit/' + book.isbn}">Edit</a></td>
+                <td><a th:href="${'/book/delete/' + book.isbn}">Delete</a></td>
             </tr>
         </table>
 

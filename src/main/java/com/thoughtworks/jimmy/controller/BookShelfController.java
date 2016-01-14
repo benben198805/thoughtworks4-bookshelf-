@@ -14,6 +14,12 @@ public class BookShelfController {
     @Autowired
     private BookService bookService;
 
+    @Autowired
+    public BookShelfController(BookService bookService)
+    {
+        this.bookService=bookService;
+    }
+
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView queryBooks() {
 
@@ -75,5 +81,4 @@ public class BookShelfController {
 
         return "redirect:/";
     }
-
 }

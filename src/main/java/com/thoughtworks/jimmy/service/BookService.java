@@ -10,7 +10,7 @@ public interface BookService {
 
     void saveBook(Book book);
 
-    void deleteBook(String isbn);
-    void modifyBook(Book book);
+    boolean deleteBook(String isbn);
+    boolean modifyBook(Book book);
 
 }

@@ -26,16 +26,31 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public void saveBook(Book book){ bookRepository.saveBook(book);}
-
-    @Override
-    public void deleteBook(String isbn) {
-        bookRepository.deleteBook(isbn);
+    public void saveBook(Book book) {
+        bookRepository.saveBook(book);
     }
 
     @Override
-    public void modifyBook(Book book) {
-        bookRepository.deleteBook(book.getIsbn());
-        bookRepository.saveBook(book);
+    public boolean deleteBook(String isbn) {
+        if (bookRepository.findOne(isbn) != null) {
+            bookRepository.deleteBook(isbn);
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+    @Override
+    public boolean modifyBook(Book book) {
+        if (bookRepository.findOne(book.getIsbn()) != null) {
+            bookRepository.deleteBook(book.getIsbn());
+            bookRepository.saveBook(book);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }

@@ -36,5 +36,4 @@ public class BookRepository {
         BOOKS_MAP.remove(isbn);
     }
 
-
 }
