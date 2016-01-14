@@ -1,0 +1,10 @@
+INSERT INTO wo_book(isbn, title, author, price) VALUES('0000001', 'Fates and Furies', 'Lauren Groff', 55.20);
+INSERT INTO wo_book(isbn, title, author, price) VALUES('0000002', 'Go Set a Watchman', 'Harper Lee', 55.20);
+INSERT INTO wo_book(isbn, title, author, price) VALUES('0000003', 'H Is for Hawk', 'Helen Macdonald', 55.20);
+INSERT INTO wo_book(isbn, title, author, price) VALUES('0000004', 'Middlemarch', 'George Eliot', 55.20);
+INSERT INTO wo_book(isbn, title, author, price) VALUES('0000005', 'Our Souls at Night', 'Kent Haruf', 55.20);
+INSERT INTO wo_book(isbn, title, author, price) VALUES('0000006', 'The Soul of an Octopus: A Surprising Exploration into the Wonder of Consciousness', 'Sy Montgomery', 55.20);
+INSERT INTO wo_book(isbn, title, author, price) VALUES('0000007', 'Station Eleven', 'Emily St. John Mandel', 55.20);
+INSERT INTO wo_book(isbn, title, author, price) VALUES('0000008', 'The Testament of Mary', 'Colm Toibin', 55.20);
+INSERT INTO wo_book(isbn, title, author, price) VALUES('0000009', 'The Things They Carried', 'Tim O’Brien', 55.20);
+INSERT INTO wo_book(isbn, title, author, price) VALUES('0000010', 'The Tiger’s Wife', 'Téa Obreht', 55.20);
