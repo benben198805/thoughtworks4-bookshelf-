@@ -3,69 +3,82 @@ package com.thoughtworks.jimmy.controller;
 import com.thoughtworks.jimmy.model.Book;
 import com.thoughtworks.jimmy.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
-import java.util.List;
-
-@RestController
-@RequestMapping("/books")
-public class BookShelfController {
+@Controller
+public class BookShelfController{
 
     @Autowired
     private BookService bookService;
 
-    @RequestMapping(method = RequestMethod.GET)
-    public Iterable<Book> query() {
+    @Autowired
+    public BookShelfController(BookService bookService)
+    {
+        this.bookService=bookService;
+    }
 
-        return bookService.findAll();
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public ModelAndView queryBooks() {
+
+        ModelMap model = new ModelMap();
+        model.put("books", bookService.findAll());
+        return new ModelAndView("books", model);
 
     }
 
-    @RequestMapping(method = RequestMethod.POST)
-    @ResponseStatus(HttpStatus.CREATED)
-    public void save(@RequestBody Book book) {
+    @RequestMapping(value = "book/{isbn}", method = RequestMethod.GET)
+    public ModelAndView getBook(@PathVariable String isbn) {
 
-        bookService.create(book);
-
-    }
-
-    @RequestMapping(value = "{isbn}", method = RequestMethod.GET)
-    public Book get(@PathVariable String isbn) {
-
-        return bookService.findByIsbn(isbn);
+        ModelMap model = new ModelMap();
+        model.put("book", bookService.findByIsbn(isbn));
+        return new ModelAndView("book", model);
 
     }
 
-    @RequestMapping(value = "{isbn}", method = RequestMethod.PUT)
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@PathVariable String isbn, @RequestBody Book book) {
+    @RequestMapping(value = "book/new", method = RequestMethod.GET)
+    public ModelAndView createBook() {
+        Book book=new Book();
 
-        if (isbn.equals(book.getIsbn())) {
+        ModelMap model = new ModelMap();
+        model.put("book", book);
+
+        return new ModelAndView("newBook", model);
+    }
+
+    @RequestMapping(value = "/book/save", method = RequestMethod.POST)
+    public String saveBook(@ModelAttribute("book") Book book) {
+        Book existBook=bookService.findByIsbn(book.getIsbn());
+        if(existBook==null){
+            bookService.create(book);
+        }
+        else
+        {
             bookService.edit(book);
         }
 
+        return "redirect:/";
     }
 
-    @RequestMapping(value = "{isbn}", method = RequestMethod.DELETE)
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable String isbn) {
 
+
+    @RequestMapping(value = "book/edit/{isbn}", method = RequestMethod.GET)
+    public ModelAndView modifyBook(@PathVariable String isbn) {
+        Book book=bookService.findByIsbn(isbn);
+
+        ModelMap model = new ModelMap();
+        model.put("book", book);
+
+        return new ModelAndView("modifyBook", model);
+    }
+
+
+    @RequestMapping(value = "book/delete/{isbn}", method = RequestMethod.GET)
+    public String deleteBook(@PathVariable String isbn) {
         bookService.delete(isbn);
 
+        return "redirect:/";
     }
-
-    @RequestMapping(value = "/search/{searchStr}", method = RequestMethod.GET)
-    public List<Book> search(@PathVariable String searchStr) {
-        System.out.println(searchStr);
-        return bookService.search(searchStr);
-    }
-
-
-    @RequestMapping(value = "/book/{title}", method = RequestMethod.GET)
-    public List<Book> getBookByTitle(@PathVariable String title) {
-        System.out.println(title);
-        return bookService.getBookByTitle(title);
-    }
-
 }
